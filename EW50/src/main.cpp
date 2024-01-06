@@ -2,7 +2,9 @@
 
 
 void setup() {
-  Serial.begin(115200);
+  // Wait for Serial beginning
+  delay(500);
+  
 }
 
 void loop() {
