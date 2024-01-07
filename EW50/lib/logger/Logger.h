@@ -35,6 +35,8 @@ class Logger
         bool flg_enable=true
     );
 
+    public: Logger(bool flg_enable);
+
     // Methods
     public: void print(const char *fmt);
     public: void printf(const char *fmt, ...);
