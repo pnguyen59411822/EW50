@@ -25,6 +25,10 @@
 #define WIFI_PASSWORD_DEFAULT   "12345678"
 #endif
 
+#ifndef WIFI_TIMEOUT_CONNECT
+#define WIFI_TIMEOUT_CONNECT    (5*1000)
+#endif
+
 
 /* ==================================================
 ** Type definition

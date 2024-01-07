@@ -6,6 +6,7 @@
 
 #include "wifi_service.h"
 #include "wifi_service.deps.h"
+#include "wifi_service.const.h"
 
 #include "Logger.h"
 
@@ -43,7 +44,7 @@
 ** =============================================== */
 
 
-//
+Logger Log(true);
 
 
 /* ==================================================
@@ -122,25 +123,31 @@ void upd_modeBeforeConnect()
 
 void add_evtConnected()
 {
+    #if defined(ESP8266)
     static WiFiEventHandler handler = WiFi.onStationModeConnected([](const WiFiEventStationModeConnected &event){
-        LOG_I("[WiFi] Connected \"%s\"", get_ssid().c_str());
+        Log.inf("[WiFi] Connected \"%s\"", get_ssid().c_str());
     });
+    #endif
 }
 
 
 void add_evtGotIP()
 {
+    #if defined(ESP8266)
     static WiFiEventHandler handler = WiFi.onStationModeGotIP([](const WiFiEventStationModeGotIP &event){
-        LOG_I("[WiFi] Got IP: %s", get_localIP().c_str());
+        Log.inf("[WiFi] Got IP: %s", get_localIP().c_str());
     });
+    #endif
 }
 
 
 void add_evtDisconnect()
 {
+    #if defined(ESP8266)
     static WiFiEventHandler handler = WiFi.onStationModeDisconnected([](const WiFiEventStationModeDisconnected &event){
-        LOG_I("[WiFi] Disconnected \"%s\"", get_ssid().c_str());
+        Log.inf("[WiFi] Disconnected \"%s\"", get_ssid().c_str());
     });
+    #endif
 }
 
 
@@ -168,11 +175,11 @@ bool check_passValid(String pass)
 
 void WiFi_init()
 {
-    LOG_I("[WiFi] init");
+    Log.inf("[WiFi] init");
     add_evtConnected();
     add_evtGotIP();
     add_evtDisconnect();
-    WiFi_connect(WIFI_DEFAULT_SSID, WIFI_DEFAULT_PASS);
+    WiFi_connect(WIFI_SSID_DEFAULT, WIFI_PASSWORD_DEFAULT);
 }
 
 
@@ -183,7 +190,7 @@ void WiFi_connect(String ssid, String pass)
 
     WiFi_disconnect();
     upd_modeBeforeConnect();
-    WiFi.begin(ssid, pass);
+    WiFi.begin(ssid.c_str(), pass.c_str());
     WiFi_wait_connect();
 }
 
@@ -192,14 +199,14 @@ void WiFi_wait_connect()
 {
     if(get_status() == WL_CONNECTED) {return;}
 
-    LOG_I("[WiFi] Connecting \"%s\"", get_ssid().c_str());
+    Log.inf("[WiFi] Connecting \"%s\"", get_ssid().c_str());
 
     uint64_t intv = millis();
-    while(millis() - intv < WiFi_get_timeWaitConnect()){
+    while(millis() - intv < WIFI_TIMEOUT_CONNECT){
         delay(500);
-        // LOG_PRINTF(".");
+        // Log.print(".");
     }
-    LOG_PRINTF("\n");
+    Log.print("\n");
 }
 
 
@@ -211,8 +218,7 @@ void WiFi_disconnect()
 
 void WiFi_reconnect()
 {
-    if(get_status() == WL_CONNECTED)
-    {
+    if(get_status() == WL_CONNECTED){
         return;
     }
 
