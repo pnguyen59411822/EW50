@@ -20,16 +20,15 @@ Logger::Logger(
 )
     : LOG_PORT(LOG_PORT)
     , MONITOR_SPEED(MONITOR_SPEED)
+    , flg_enable(flg_enable)
 {
 
     if (!flg_enable) {
-        this->LOG_PORT = nullptr;
         return;
     }
     
     LOG_PORT->begin(MONITOR_SPEED);
     LOG_PORT->print("\n\n\r");
-    delay(500);
 }
 
 
@@ -40,7 +39,7 @@ Logger::Logger(
 
 
 void Logger::print(const char *fmt) {
-    if(LOG_PORT == nullptr) {
+    if(!flg_enable) {
         return;
     }
 
@@ -49,24 +48,83 @@ void Logger::print(const char *fmt) {
 
 
 void Logger::printf(const char *fmt, ...) {
-    if(LOG_PORT == nullptr) {
+    if(!flg_enable) {
         return;
     }
 
-    // In thông tin ra serial
-    va_list args;
-    va_start(args, fmt);
+    char loc_buf[64];
+    char * temp = loc_buf;
+    va_list arg;
+    va_list copy;
 
-    // In nội dung thông tin
-    vprintf(fmt, args);
-    
-    // Dọn dẹp bộ nhớ
+    va_start(arg, fmt);
+    va_copy(copy, arg);
+
+    int len = vsnprintf(temp, sizeof(loc_buf), fmt, copy);
+    va_end(copy);
+
+    if(len < 0) {
+        va_end(arg);
+        return;
+    };
+
+    if(len >= sizeof(loc_buf)){
+        temp = (char*) malloc(len+1);
+        if(temp == NULL) {
+            va_end(arg);
+            return;
+        }
+        len = vsnprintf(temp, len+1, fmt, arg);
+    }
+
+    va_end(arg);
+    len = LOG_PORT->write((uint8_t*)temp, len);
+
+    if(temp != loc_buf){
+        free(temp);
+    }
+}
+
+
+void Logger::printf(const char *fmt, va_list &args) {
+    if(!flg_enable) {
+        return;
+    }
+
+    char loc_buf[64];
+    char * temp = loc_buf;
+
+    va_list copy;
+    va_copy(copy, args);
+
+    int len = vsnprintf(temp, sizeof(loc_buf), fmt, copy);
+    va_end(copy);
+
+    if(len < 0) {
+        va_end(args);
+        return;
+    };
+
+    if(len >= sizeof(loc_buf)){
+        temp = (char*) malloc(len+1);
+        if(temp == NULL) {
+            va_end(args);
+            return;
+        }
+        len = vsnprintf(temp, len+1, fmt, args);
+    }
+
     va_end(args);
+    len = LOG_PORT->write((uint8_t*)temp, len);
+
+    if(temp != loc_buf){
+        free(temp);
+    }
 }
 
 
 void Logger::inf(const char *fmt, ...) {
-    if(LOG_PORT == nullptr) {
+    if(!flg_enable) {
         return;
     }
 
@@ -79,15 +137,15 @@ void Logger::inf(const char *fmt, ...) {
         LOG_PORT->println();
     }
 
+    // In thời gian
+    LOG_PORT->printf("I (%.3Lf) ", (long double)millis() / 1000);
+
     // In thông tin ra serial
     va_list args;
     va_start(args, fmt);
 
-    // In thời gian
-    LOG_PORT->printf("I (%.3Lf) ", (long double)millis() / 1000);
-
     // In nội dung thông tin
-    vprintf(fmt, args);
+    printf(fmt, args);
 
     // In xuống dòng
     LOG_PORT->println();
@@ -98,7 +156,7 @@ void Logger::inf(const char *fmt, ...) {
 
 
 void Logger::err(const char *fmt, ...) {
-    if(LOG_PORT == nullptr) {
+    if(!flg_enable) {
         return;
     }
 
@@ -111,15 +169,15 @@ void Logger::err(const char *fmt, ...) {
         LOG_PORT->println();
     }
 
+    // In thời gian
+    LOG_PORT->printf("E (%.3Lf) ", (long double)millis() / 1000);
+
     // In thông tin ra serial
     va_list args;
     va_start(args, fmt);
 
-    // In thời gian
-    LOG_PORT->printf("E (%.3Lf) ", (long double)millis() / 1000);
-
     // In nội dung thông tin
-    vprintf(fmt, args);
+    printf(fmt, args);
 
     // In xuống dòng
     LOG_PORT->println();
@@ -130,21 +188,21 @@ void Logger::err(const char *fmt, ...) {
 
 
 void Logger::upd(const char *fmt, ...) {
-    if(LOG_PORT == nullptr) {
+    if(!flg_enable) {
         return;
     }
 
     flg_upd = true;
 
+    // In thời gian
+    LOG_PORT->printf("U (%.3Lf) ", (long double)millis() / 1000);
+
     // In thông tin ra serial
     va_list args;
     va_start(args, fmt);
 
-    // In thời gian
-    LOG_PORT->printf("U (%.3Lf) ", (long double)millis() / 1000);
-
     // In nội dung thông tin
-    vprintf(fmt, args);
+    printf(fmt, args);
 
     // Con trỏ quay về đầu dòng
     LOG_PORT->print("\r");
@@ -153,3 +211,12 @@ void Logger::upd(const char *fmt, ...) {
     va_end(args);
 }
 
+
+void Logger::enable() {
+    flg_enable = true;
+}
+
+
+void Logger::disable() {
+    flg_enable = false;
+}
