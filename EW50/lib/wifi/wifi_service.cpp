@@ -5,7 +5,6 @@
 
 
 #include "wifi_service.h"
-#include "wifi_service.deps.h"
 #include "wifi_service.const.h"
 
 #include "Logger.h"
@@ -44,7 +43,7 @@
 ** =============================================== */
 
 
-Logger Log(true);
+static Logger Log(true);
 
 
 /* ==================================================
@@ -191,22 +190,34 @@ void WiFi_connect(String ssid, String pass)
     WiFi_disconnect();
     upd_modeBeforeConnect();
     WiFi.begin(ssid.c_str(), pass.c_str());
+
+    Log.inf("[WiFi] Connecting \"%s\"", ssid.c_str());
     WiFi_wait_connect();
 }
 
 
 void WiFi_wait_connect()
 {
-    if(get_status() == WL_CONNECTED) {return;}
-
-    Log.inf("[WiFi] Connecting \"%s\"", get_ssid().c_str());
+    if(get_status() == WL_CONNECTED) {
+        Log.inf("[WiFi] connected");    
+        return;
+    }
 
     uint64_t intv = millis();
     while(millis() - intv < WIFI_TIMEOUT_CONNECT){
         delay(500);
-        // Log.print(".");
+        
+        if(WiFi.status() == WL_CONNECTED)
+        {
+            Log.inf("[WiFi] Connected");
+            Log.inf("[WiFi] IP address: %s", WiFi.localIP().toString().c_str());
+            Log.print("\n");
+
+            return;
+        }
     }
-    Log.print("\n");
+
+    Log.inf("[WiFi] Fail to connect");
 }
 
 
