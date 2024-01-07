@@ -38,12 +38,18 @@ class Logger
     // Methods
     public: void print(const char *fmt);
     public: void printf(const char *fmt, ...);
+    private: void printf(const char *fmt, va_list &args);
+
     public: void inf(const char *fmt, ...);
     public: void err(const char *fmt, ...);
     public: void upd(const char *fmt, ...);
 
+    public: void enable();
+    public: void disable();
+
     // Attributes
     private: bool flg_upd;
+    private: bool flg_enable;
     private: HardwareSerial *LOG_PORT;
     private: const uint32_t MONITOR_SPEED;
 };
