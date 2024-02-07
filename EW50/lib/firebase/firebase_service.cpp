@@ -8,6 +8,8 @@
 #include "firebase_service.deps.h"
 #include "firebase_service.const.h"
 
+#include "Logger.h"
+
 
 /* ==================================================
 ** Macro definition
@@ -41,6 +43,8 @@
 **
 ** =============================================== */
 
+
+static Logger Log(true);
 
 static FirebaseData fbdo_solar;
 static FirebaseData fbdo_water;
