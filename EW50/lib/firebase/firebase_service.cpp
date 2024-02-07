@@ -59,7 +59,7 @@ static FirebaseConfig config;
 ** =============================================== */
 
 
-//
+static bool signin_anonymous();
 
 
 /* ==================================================
@@ -68,7 +68,21 @@ static FirebaseConfig config;
 ** =============================================== */
 
 
-//
+bool signin_anonymous() {
+
+    Log.inf("[Firebase] Sign in as anonymous...");
+    if (Firebase.signUp(&config, &auth, "", ""))
+    {
+        Log.print("Success\n\n");
+        return true;
+    }
+    
+    // If the signupError.message showed "ADMIN_ONLY_OPERATION"
+    // you need to enable Anonymous provider in project's Authentication.
+    Log.print("Fail\n");
+    Log.printf("%s\n\n", config.signer.signupError.message.c_str());
+    return false;
+}
 
 
 /* ==================================================
