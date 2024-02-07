@@ -11,7 +11,7 @@ void setup() {
   // Wait for Serial beginning
   delay(500);
   WiFi_init();
-  Firebase_begin();
+  Firebase_init();
 }
 
 void loop() {

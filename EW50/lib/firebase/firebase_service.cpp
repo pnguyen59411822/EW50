@@ -91,7 +91,7 @@ bool signin_anonymous() {
 ** =============================================== */
 
 
-void Firebase_begin() {
+void Firebase_init() {
 
     // config.host = FIREBASE_HOST;
     config.api_key = FIREBASE_API_KEY;
