@@ -92,8 +92,8 @@ bool signin_anonymous() {
 
 
 void Firebase_begin() {
-    // config.host = FIREBASE_HOST;
 
+    // config.host = FIREBASE_HOST;
     config.api_key = FIREBASE_API_KEY;
     config.database_url = FIREBASE_DATABASE_URL;
 
@@ -104,10 +104,15 @@ void Firebase_begin() {
     // Comment or pass false value when WiFi reconnection will control by your code or third party library e.g. WiFiManager
     Firebase.reconnectNetwork(true);
 
-    // Since v4.4.x, BearSSL engine was used, the SSL buffer need to be set.
-    // Large data transmission may require larger RX buffer, otherwise connection issue or data read time out can be occurred.
-    fbdo_solar.setBSSLBufferSize(4096 /* Rx buffer size in bytes from 512 - 16384 */, 1024 /* Tx buffer size in bytes from 512 - 16384 */);
-    fbdo_water.setBSSLBufferSize(4096 /* Rx buffer size in bytes from 512 - 16384 */, 1024 /* Tx buffer size in bytes from 512 - 16384 */);
+    /** Since v4.4.x, BearSSL engine was used, the SSL buffer need to be set.
+     * Large data transmission may require larger RX buffer, otherwise connection issue or data read time out can be occurred.
+     * Rx buffer size in bytes from 512 - 16384
+     * Tx buffer size in bytes from 512 - 16384
+    */
+    fbdo_solar.setBSSLBufferSize(4096 , 1024);
+    fbdo_water.setBSSLBufferSize(4096 , 1024);
+
+    signin_anonymous();
 
     /* Assign the callback function for the long running token generation task */
     config.token_status_callback = tokenStatusCallback; // see addons/TokenHelper.h
