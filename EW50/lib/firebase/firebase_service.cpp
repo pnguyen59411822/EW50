@@ -52,6 +52,8 @@ static FirebaseData fbdo_water;
 static FirebaseAuth auth;
 static FirebaseConfig config;
 
+static bool flg_signin = false;
+
 
 /* ==================================================
 ** Static function declaration
@@ -112,7 +114,7 @@ void Firebase_init() {
     fbdo_solar.setBSSLBufferSize(4096 , 1024);
     fbdo_water.setBSSLBufferSize(4096 , 1024);
 
-    signin_anonymous();
+    flg_signin = signin_anonymous();
 
     /* Assign the callback function for the long running token generation task */
     config.token_status_callback = tokenStatusCallback; // see addons/TokenHelper.h
