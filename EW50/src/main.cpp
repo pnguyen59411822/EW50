@@ -1,14 +1,15 @@
 #include <Arduino.h>
 
 #include "Logger.h"
+#include "wifi_service.h"
 
-Logger Log(true);
+static Logger Log(true);
 
 
 void setup() {
   // Wait for Serial beginning
   delay(500);
-  
+  WiFi_init();
 }
 
 void loop() {
