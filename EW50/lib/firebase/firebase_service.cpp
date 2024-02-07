@@ -130,3 +130,28 @@ void Firebase_init() {
     Firebase.begin(&config, &auth);
 }
 
+
+void Firebase_loop() {
+
+    const uint32_t timer = 5000;
+    static uint32_t millis_prev = millis();
+
+    if(millis() - millis_prev < timer) {
+        return;
+    }
+
+    millis_prev = millis();
+
+    if(!flg_signin) {
+        flg_signin = signin_anonymous();
+        return;
+    }
+
+    if (!Firebase.ready())
+    {
+        Log.err("[Firebase] Not ready");
+        return;
+    }
+
+    Log.inf("[Firebase] Ready");
+}
