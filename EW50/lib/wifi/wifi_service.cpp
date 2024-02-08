@@ -184,8 +184,14 @@ void WiFi_init()
 
 void WiFi_connect(String ssid, String pass)
 {
-    if(check_oldWiFi(ssid, pass))       {return;}
-    if(check_passValid(pass) == false)  {return;}
+    if(check_oldWiFi(ssid, pass)
+    && WiFi.status() == WL_CONNECTED) {
+        return;
+    }
+
+    if(check_passValid(pass) == false) {
+        return;
+    }
 
     WiFi_disconnect();
     upd_modeBeforeConnect();
