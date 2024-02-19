@@ -1,10 +1,13 @@
 #include <Arduino.h>
 
+#include "Logger.h"
 #include "hcsr04.h"
 
 
+Logger Log(true);
+
+
 void setup() {
-  Serial.begin(9600);
   HCSR04_setup();
 }
 
