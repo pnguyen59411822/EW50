@@ -7,6 +7,8 @@
 #include "hcsr04.h"
 #include "hcsr04.const.h"
 
+#include "Logger.h"
+
 
 
 /* ==================================================
@@ -42,6 +44,7 @@
 ** =============================================== */
 
 
+static Logger Log(true);
 double distance_cm = 0.0;
 
 
@@ -109,13 +112,7 @@ void HCSR04_read() {
     send_pulse();
     calc_distance();
 
-    #ifdef ENABLE_DEBUG
-    Serial.print("Distance: ");
-    Serial.print(HCSR04_get_cm());
-    Serial.print(" cm");
-    Serial.println();
-    #endif
-
+    Log.inf("[HC-SR04] Distance: %.2f cm", HCSR04_get_cm());
     intv = millis();
 }
 
