@@ -36,7 +36,7 @@
 ** =============================================== */
 
 
-// String uart_data;
+String uart_data;
 
 
 /* ==================================================
@@ -90,19 +90,75 @@ bool signin_anonymous() {
 
 
 void send_uartData() {
-    if(uart_data.equals("")) {
+    if(uart_data.isEmpty()) {
         return;
     }
 
-    const String data = uart_data;
-    const char   separator = ',';
-    
+    const String valueNames[] = {
+        // Solar
+        "Voltage", "Ampe", "Perform",
+
+        // Water
+        "Voltage", "Ampe", "Perform", "Flowrate", "totalmilliLitres"
+    };
 
 
+    const String data    = uart_data;
+    const char separator = ',';
+    int nameIndex_curr   = 0;
+    int nameIndex_max    = sizeof(valueNames) / sizeof(valueNames[0]);
+
+
+    int start = 0;
+    int end = data.indexOf(separator);
+    FirebaseJson json_solar, json_water;
+
+
+    while(end >= 0 && nameIndex_curr < nameIndex_max){
+        String value = data.substring(start, end);
+
+        if(nameIndex_curr < 3) {
+            json_solar.set(valueNames[nameIndex_curr], value);
+        }
+
+        else {
+            json_water.set(valueNames[nameIndex_curr], value);
+        }
+
+        nameIndex_curr += 1;
+        start = end + 1;
+        end   = data.indexOf(separator, start);
+    }
+
+
+    if(start < data.length() && nameIndex_curr < nameIndex_max){
+        String value = data.substring(start);
+
+        if(nameIndex_curr < 3) {
+            json_solar.set(valueNames[nameIndex_curr], value);
+        }
+
+        else {
+            json_water.set(valueNames[nameIndex_curr], value);
+        }
+    }
 
     // Reset uart data
     uart_data = "";
 
+    if (!Firebase.RTDB.setJSON(&fbdo_solar, "Solar sytem", &json_solar)) {
+        Log.err("[Firebase] Sending solar... failed");
+    }
+    else{
+        Log.inf("[Firebase] Sending solar... success");
+    }
+
+    if (!Firebase.RTDB.setJSON(&fbdo_water, "water flow", &json_water)) {
+        Log.err("[Firebase] Sending water... failed");
+    }
+    else{
+        Log.inf("[Firebase] Sending water... success");
+    }
 }
 
 
