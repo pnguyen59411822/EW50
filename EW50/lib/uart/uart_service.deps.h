@@ -1,5 +1,5 @@
-#ifndef uart_deps_h
-#define uart_deps_h
+#ifndef uart_service_deps_h
+#define uart_service_deps_h
 
 
 #include <Arduino.h>

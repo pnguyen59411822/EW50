@@ -1,5 +1,5 @@
-#ifndef uart_const_h
-#define uart_const_h
+#ifndef uart_service_const_h
+#define uart_service_const_h
 
 
 /* ==================================================

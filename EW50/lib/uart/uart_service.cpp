@@ -4,8 +4,9 @@
 ** =============================================== */
 
 
-#include "uart.h"
-#include "uart.const.h"
+#include "uart_service.deps.h"
+#include "uart_service.const.h"
+#include "uart_service.h"
 #include "common.h"
 
 #include "Logger.h"
@@ -44,7 +45,7 @@
 ** =============================================== */
 
 
-static Logger log(true);
+static Logger Log(true);
 static SoftwareSerial mySerial(UART_RX_DEFAULT, UART_TX_DEFAULT);
 
 
@@ -103,13 +104,13 @@ String getValue(String data, char separator, unsigned int index) {
 void UART_init() {
     mySerial.begin(UART_BAUND_RATE_DEFAULT);
     while(!mySerial);
-    log.inf("[UART] init... success");
+    Log.inf("[UART] init... success");
 }
 
 
 void UART_loop() {
     if(mySerial.available()) {
         String uart_data = mySerial.readString();
-        log.inf("[UART] receive data: %s", uart_data.c_str());
+        Log.inf("[UART] receive data: %s", uart_data.c_str());
     }
 }
