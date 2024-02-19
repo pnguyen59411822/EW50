@@ -110,7 +110,7 @@ void UART_init() {
 
 void UART_loop() {
     if(mySerial.available()) {
-        String uart_data = mySerial.readString();
+        uart_data = mySerial.readString();
         Log.inf("[UART] receive data: %s", uart_data.c_str());
     }
 }
