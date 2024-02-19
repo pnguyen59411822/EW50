@@ -8,7 +8,7 @@ Logger Log(true);
 
 
 void setup() {
-  HCSR04_setup();
+  HCSR04_init();
 }
 
 void loop() {
