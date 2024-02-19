@@ -9,6 +9,7 @@
 #include "firebase_service.const.h"
 
 #include "Logger.h"
+#include "common.h"
 
 
 /* ==================================================
@@ -35,7 +36,7 @@
 ** =============================================== */
 
 
-//
+// String uart_data;
 
 
 /* ==================================================
@@ -62,6 +63,7 @@ static bool flg_signin = false;
 
 
 static bool signin_anonymous();
+static void send_uartData();
 
 
 /* ==================================================
@@ -84,6 +86,23 @@ bool signin_anonymous() {
     Log.print("Fail\n");
     Log.printf("%s\n\n", config.signer.signupError.message.c_str());
     return false;
+}
+
+
+void send_uartData() {
+    if(uart_data.equals("")) {
+        return;
+    }
+
+    const String data = uart_data;
+    const char   separator = ',';
+    
+
+
+
+    // Reset uart data
+    uart_data = "";
+
 }
 
 
@@ -133,6 +152,15 @@ void Firebase_init() {
 
 void Firebase_loop() {
 
+    if (!Firebase.ready())
+    {
+        Log.err("[Firebase] Not ready");
+        return;
+    }
+
+    send_uartData();
+
+
     const uint32_t timer = 5000;
     static uint32_t millis_prev = millis();
 
@@ -146,12 +174,4 @@ void Firebase_loop() {
         flg_signin = signin_anonymous();
         return;
     }
-
-    if (!Firebase.ready())
-    {
-        Log.err("[Firebase] Not ready");
-        return;
-    }
-
-    Log.inf("[Firebase] Ready");
 }
