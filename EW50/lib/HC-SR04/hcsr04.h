@@ -35,7 +35,7 @@
 ** =============================================== */
 
 
-void HCSR04_setup();
+void HCSR04_init();
 void HCSR04_read();
 
 float HCSR04_get_m();

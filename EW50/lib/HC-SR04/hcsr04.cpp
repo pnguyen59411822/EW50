@@ -89,7 +89,7 @@ void calc_distance() {
 ** =============================================== */
 
 
-void HCSR04_setup() {
+void HCSR04_init() {
 
 	pinMode(PINS.TRIG, OUTPUT);  
 	pinMode(PINS.ECHO, INPUT);
