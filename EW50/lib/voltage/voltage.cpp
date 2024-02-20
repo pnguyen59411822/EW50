@@ -102,6 +102,6 @@ void Voltage_read() {
 }
 
 
-float Voltage_get() {
-    return volt_src;
+float Voltage_getSolar() {
+    return volt_solar;
 }
