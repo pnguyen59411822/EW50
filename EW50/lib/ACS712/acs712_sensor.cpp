@@ -7,6 +7,8 @@
 #include "acs712_sensor.h"
 #include "acs712_sensor.const.h"
 
+#include "Logger.h"
+
 
 /* ==================================================
 ** Macro definition
@@ -41,6 +43,7 @@
 ** =============================================== */
 
 
+static Logger Log(true);
 static ACS712 sensor(ACS712_TYPE, ACS712_PIN);
 
 
