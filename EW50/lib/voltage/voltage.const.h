@@ -17,7 +17,6 @@
 ** =============================================== */
 
 
-#define VOLTAGE_PIN     3
 #define VOLTAGE_REF     5.0
 
 // Divide voltage
