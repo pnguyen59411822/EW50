@@ -46,6 +46,9 @@
 static Logger Log(true);
 static ACS712 sensor(ACS712_TYPE, ACS712_PIN);
 
+static uint16_t current_dc = 0;
+static uint32_t intv_lastMeasure = millis();
+
 
 /* ==================================================
 ** Static function declaration
@@ -88,3 +91,13 @@ void ACS712_calibrate(){
     Log.print("\n");
 }
 
+
+float ACS712_getCurrentDC(){
+
+    if(millis() - intv_lastMeasure >= 1000) {
+        current_dc = sensor.getCurrentDC();
+        intv_lastMeasure = millis();
+    }
+    
+    return current_dc;
+}
