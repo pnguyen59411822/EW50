@@ -17,7 +17,13 @@
 ** =============================================== */
 
 
-//
+#define VOLTAGE_SENSOR_PIN_SOLAR    A0
+#define VOLTAGE_SENSOR_PIN_WATER    A7
+
+#define ACS712_PIN_SOLAR            A3
+
+#define WATERFLOW_SENSOR_PIN        2
+
 
 
 /* ==================================================
