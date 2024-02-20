@@ -83,3 +83,8 @@ void Voltage_read() {
     
     volt_src  = volt_r2 * (RESISTOR_1 + RESISTOR_2) / RESISTOR_2; 
 }
+
+
+float Voltage_get() {
+    return volt_src;
+}
