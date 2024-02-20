@@ -7,6 +7,8 @@
 #include "voltage.h"
 #include "voltage.const.h"
 
+#include "pin_table.h"
+
 
 /* ==================================================
 ** Macro definition
@@ -41,7 +43,8 @@
 ** =============================================== */
 
 
-static float volt_src = 0;
+static float volt_solar = 0;
+static float volt_water = 0;
 
 
 /* ==================================================
@@ -50,7 +53,8 @@ static float volt_src = 0;
 ** =============================================== */
 
 
-//
+static void read_solarVolt();
+static void read_waterVolt();
 
 
 /* ==================================================
@@ -59,7 +63,22 @@ static float volt_src = 0;
 ** =============================================== */
 
 
-//
+void read_solarVolt(){
+
+    uint16_t adc_r2  = analogRead(VOLTAGE_SENSOR_PIN_SOLAR);
+    float    volt_r2 = (float)(adc_r2 * VOLTAGE_REF) / ADC_RESOLUTION;
+    
+    volt_solar  = volt_r2 * (RESISTOR_1 + RESISTOR_2) / RESISTOR_2; 
+}
+
+
+void read_waterVolt(){
+
+    uint16_t adc_r2  = analogRead(VOLTAGE_SENSOR_PIN_WATER);
+    float    volt_r2 = (float)(adc_r2 * VOLTAGE_REF) / ADC_RESOLUTION;
+    
+    volt_water  = volt_r2 * (RESISTOR_1 + RESISTOR_2) / RESISTOR_2; 
+}
 
 
 /* ==================================================
@@ -78,13 +97,16 @@ void Voltage_read() {
 
     intv = millis();
 
-    uint16_t adc_r2  = analogRead(VOLTAGE_PIN);
-    float    volt_r2 = (float)(adc_r2 * VOLTAGE_REF) / ADC_RESOLUTION;
-    
-    volt_src  = volt_r2 * (RESISTOR_1 + RESISTOR_2) / RESISTOR_2; 
+    read_solarVolt();
+    read_waterVolt();
 }
 
 
-float Voltage_get() {
-    return volt_src;
+float Voltage_getSolar() {
+    return volt_solar;
+}
+
+
+float Voltage_getWater() {
+    return volt_water;
 }
