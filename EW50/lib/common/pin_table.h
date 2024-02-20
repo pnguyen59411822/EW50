@@ -24,6 +24,12 @@
 
 #define WATERFLOW_SENSOR_PIN        2
 
+#define INTERRUPT_PIN_2             0
+#define INTERRUPT_PIN_3             1
+#define INTERRUPT_PIN_21            2
+#define INTERRUPT_PIN_20            3
+#define INTERRUPT_PIN_19            4
+#define INTERRUPT_PIN_18            5
 
 
 /* ==================================================
