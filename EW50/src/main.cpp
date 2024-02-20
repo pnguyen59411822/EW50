@@ -2,6 +2,7 @@
 
 #include "Logger.h"
 #include "hcsr04.h"
+#include "voltage.h"
 
 
 Logger Log(true);
@@ -13,4 +14,5 @@ void setup() {
 
 void loop() {
   HCSR04_read();
+  Voltage_read();
 }
