@@ -17,5 +17,7 @@ void loop() {
   HCSR04_read();
   Voltage_read();
 
+  Log.inf("[Voltage] Solar: %.2f", Voltage_getSolar());
+  Log.inf("[Voltage] Water: %.2f", Voltage_getWater());
   Log.inf("[ACS712] current DC: %d", ACS712_getCurrentDC());
 }
