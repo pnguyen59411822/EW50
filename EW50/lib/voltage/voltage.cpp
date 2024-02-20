@@ -97,10 +97,8 @@ void Voltage_read() {
 
     intv = millis();
 
-    uint16_t adc_r2  = analogRead(VOLTAGE_SENSOR_PIN_SOLAR);
-    float    volt_r2 = (float)(adc_r2 * VOLTAGE_REF) / ADC_RESOLUTION;
-    
-    volt_src  = volt_r2 * (RESISTOR_1 + RESISTOR_2) / RESISTOR_2; 
+    read_solarVolt();
+    read_waterVolt();
 }
 
 
