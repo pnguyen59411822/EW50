@@ -44,7 +44,8 @@
 ** =============================================== */
 
 
-void Voltage_read();
+void  Voltage_read();
+float Voltage_get();
 
 
 #endif
