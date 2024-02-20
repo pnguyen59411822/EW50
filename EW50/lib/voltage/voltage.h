@@ -46,6 +46,7 @@
 
 void  Voltage_read();
 float Voltage_getSolar();
+float Voltage_getWater();
 
 
 #endif

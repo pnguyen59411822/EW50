@@ -105,3 +105,8 @@ void Voltage_read() {
 float Voltage_getSolar() {
     return volt_solar;
 }
+
+
+float Voltage_getWater() {
+    return volt_water;
+}
