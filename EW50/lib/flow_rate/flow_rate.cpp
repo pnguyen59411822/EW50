@@ -71,5 +71,7 @@ static Logger Log(true);
 ** =============================================== */
 
 
-//
+void FlowRate_init(){
+
+}
 
