@@ -18,9 +18,9 @@ Logger::Logger(
     uint32_t        MONITOR_SPEED,
     bool            flg_enable
 )
-    : LOG_PORT(LOG_PORT)
+    : flg_enable(flg_enable)
+    , LOG_PORT(LOG_PORT)
     , MONITOR_SPEED(MONITOR_SPEED)
-    , flg_enable(flg_enable)
 {
 
     if (!flg_enable) {
@@ -34,9 +34,9 @@ Logger::Logger(
 
 
 Logger::Logger(bool flg_enable)
-    : LOG_PORT(LOG_PORT_DEFAULT)
+    : flg_enable(flg_enable)
+    , LOG_PORT(LOG_PORT_DEFAULT)
     , MONITOR_SPEED(MONITOR_SPEED_DEFAULT)
-    , flg_enable(flg_enable)
 {
 
     if (!flg_enable) {
