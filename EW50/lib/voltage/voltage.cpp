@@ -6,6 +6,7 @@
 
 #include "voltage.h"
 #include "voltage.const.h"
+#include <SimpleKalmanFilter.h>
 
 #include "pin_table.h"
 
@@ -43,6 +44,7 @@
 ** =============================================== */
 
 
+static SimpleKalmanFilter fillter(1, 5, 0.05);
 static float volt_solar = 0;
 static float volt_water = 0;
 
