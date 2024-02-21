@@ -85,7 +85,7 @@ void FlowSensor_init(){
     pinMode(FLOW_SENSOR_PIN, INPUT);
     digitalWrite(FLOW_SENSOR_PIN, HIGH);
 
-    attachInterrupt(FLOW_SENSOR_PIN, pulseCounter, FALLING);
+    attachInterrupt(FLOW_SENSOR_PIN_INTERRUPT, pulseCounter, FALLING);
 }
 
 
@@ -101,14 +101,14 @@ void FlowSensor_read(){
     millis_prev = millis();
 
     // FLOW_SENSOR_PIN is 2
-    detachInterrupt(INTERRUPT_PIN_2);
+    detachInterrupt(FLOW_SENSOR_PIN_INTERRUPT);
 
     flowRate          = ((TIMEOUT / intv) * pulseCount) / FLOW_SENSOR_FACTOR_CALIBRATE;
     flowMilliLitres   = (flowRate / 60) * 1000;
     totalMilliLitres += flowMilliLitres;
 
     pulseCount = 0;
-    attachInterrupt(INTERRUPT_PIN_2, pulseCounter, FALLING);
+    attachInterrupt(FLOW_SENSOR_PIN_INTERRUPT, pulseCounter, FALLING);
 
     Log.print("\n");
     Log.inf("[flow_sensor] rate (L/min):                %.2f", flowRate);
