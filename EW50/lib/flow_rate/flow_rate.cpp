@@ -120,3 +120,8 @@ void FlowRate_read(){
 float FlowRate_get_rate(){
     return flowRate;
 }
+
+
+uint32_t FlowRate_get_totalMilliLitres(){
+    return totalMilliLitres;
+}

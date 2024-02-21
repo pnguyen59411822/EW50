@@ -39,6 +39,7 @@ void FlowRate_init();
 void FlowRate_read();
 
 float FlowRate_get_rate();
+uint32_t FlowRate_get_totalMilliLitres();
 
 
 /* ==================================================
