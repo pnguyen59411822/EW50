@@ -117,6 +117,7 @@ void FlowRate_read(){
 }
 
 
+// Litres / minute
 float FlowRate_get_rate(){
     return flowRate;
 }
