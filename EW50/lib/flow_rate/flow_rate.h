@@ -38,6 +38,8 @@
 void FlowRate_init();
 void FlowRate_read();
 
+float FlowRate_get_rate();
+
 
 /* ==================================================
 ** Extern variables

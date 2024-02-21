@@ -115,3 +115,8 @@ void FlowRate_read(){
     Log.inf("[flow_rate] Output Liquid Quantity (mL): %lu", totalMilliLitres);
     Log.print("\n");
 }
+
+
+float FlowRate_get_rate(){
+    return flowRate;
+}
