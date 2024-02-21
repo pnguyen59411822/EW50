@@ -36,7 +36,7 @@
 
 
 void  ACS712_calibrate();
-float ACS712_getCurrentDC();
+float ACS712_getSolar();
 
 
 /* ==================================================

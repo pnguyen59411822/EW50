@@ -8,6 +8,7 @@
 #include "acs712_sensor.const.h"
 
 #include "Logger.h"
+#include "pin_table.h"
 
 
 /* ==================================================
@@ -44,10 +45,10 @@
 
 
 static Logger Log(true);
-static ACS712 sensor(ACS712_TYPE, ACS712_PIN);
+static ACS712 sensor_solar(ACS712_TYPE, ACS712_PIN_SOLAR);
 
-static uint16_t current_dc = 0;
-static uint32_t intv_lastMeasure = millis();
+static uint16_t current_solar = 0;
+static uint32_t intv_lastMeasure_solar = millis();
 
 
 /* ==================================================
@@ -84,7 +85,7 @@ void ACS712_calibrate(){
     Log.inf("[ACS712] Calibrating... ");
     Log.inf("[ACS712] Ensure that no current flows through the sensor at this moment");
 
-    int zero = sensor.calibrate();
+    int zero = sensor_solar.calibrate();
 
     Log.inf("[ACS712] Done!");
     Log.inf("Zero point for this sensor = %d", zero);
@@ -92,12 +93,12 @@ void ACS712_calibrate(){
 }
 
 
-float ACS712_getCurrentDC(){
+float ACS712_getSolar(){
 
-    if(millis() - intv_lastMeasure >= 1000) {
-        current_dc = sensor.getCurrentDC();
-        intv_lastMeasure = millis();
+    if(millis() - intv_lastMeasure_solar >= 1000) {
+        current_solar = sensor_solar.getCurrentDC();
+        intv_lastMeasure_solar = millis();
     }
     
-    return current_dc;
+    return current_solar;
 }
