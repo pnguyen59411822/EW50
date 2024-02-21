@@ -22,7 +22,7 @@
 
 #define ACS712_PIN_SOLAR            A3
 
-#define WATERFLOW_SENSOR_PIN        2
+#define FLOW_RATE_SENSOR_PIN        2
 
 #define INTERRUPT_PIN_2             0
 #define INTERRUPT_PIN_3             1
