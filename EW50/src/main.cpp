@@ -21,6 +21,7 @@ void loop() {
   HCSR04_read();
   Voltage_read();
   FlowRate_read();
+  UART_loop();
 
   Log.inf("[Voltage] Solar: %.2f", Voltage_getSolar());
   Log.inf("[Voltage] Water: %.2f", Voltage_getWater());
