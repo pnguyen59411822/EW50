@@ -37,8 +37,8 @@
 
 #define ACS712_PIN_SOLAR            A3
 
-#define FLOW_RATE_SENSOR_PIN            2
-#define FLOW_RATE_SENSOR_PIN_INTERRUPT INTERRUPT_PIN_2
+#define FLOW_SENSOR_PIN             2
+#define FLOW_SENSOR_PIN_INTERRUPT   INTERRUPT_PIN_2
 
 #define HUB_TX  PIN_RX1
 #define HUB_RX  PIN_TX1

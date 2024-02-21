@@ -1,5 +1,5 @@
-#ifndef flow_rate_const_h
-#define flow_rate_const_h
+#ifndef flow_sensor_const_h
+#define flow_sensor_const_h
 
 
 /* ==================================================
@@ -17,7 +17,7 @@
 ** =============================================== */
 
 
-#define FLOW_RATE_FACTOR_CALIBRATE  4.5
+#define FLOW_SENSOR_FACTOR_CALIBRATE  4.5
 
 
 /* ==================================================

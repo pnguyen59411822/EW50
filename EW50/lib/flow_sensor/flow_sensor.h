@@ -1,5 +1,5 @@
-#ifndef flow_rate_h
-#define flow_rate_h
+#ifndef flow_sensor_h
+#define flow_sensor_h
 
 
 /* ==================================================
@@ -35,11 +35,11 @@
 ** =============================================== */
 
 
-void FlowRate_init();
-void FlowRate_read();
+void FlowSensor_init();
+void FlowSensor_read();
 
-float FlowRate_get_rate();
-uint32_t FlowRate_get_totalMilliLitres();
+float FlowSensor_get_rate();
+uint32_t FlowSensor_get_totalMilliLitres();
 
 
 /* ==================================================

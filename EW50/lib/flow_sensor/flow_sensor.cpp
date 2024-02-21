@@ -4,8 +4,8 @@
 ** =============================================== */
 
 
-#include "flow_rate.h"
-#include "flow_rate.const.h"
+#include "flow_sensor.h"
+#include "flow_sensor.const.h"
 
 #include "pin_table.h"
 #include "Logger.h"
@@ -81,15 +81,15 @@ void pulseCounter(){
 ** =============================================== */
 
 
-void FlowRate_init(){
-    pinMode(FLOW_RATE_SENSOR_PIN, INPUT);
-    digitalWrite(FLOW_RATE_SENSOR_PIN, HIGH);
+void FlowSensor_init(){
+    pinMode(FLOW_SENSOR_PIN, INPUT);
+    digitalWrite(FLOW_SENSOR_PIN, HIGH);
 
-    attachInterrupt(FLOW_RATE_SENSOR_PIN, pulseCounter, FALLING);
+    attachInterrupt(FLOW_SENSOR_PIN, pulseCounter, FALLING);
 }
 
 
-void FlowRate_read(){
+void FlowSensor_read(){
     static uint32_t millis_prev = 0;
     const float     TIMEOUT     = 1000.0;
     const uint32_t  intv        = millis() - millis_prev;
@@ -100,10 +100,10 @@ void FlowRate_read(){
 
     millis_prev = millis();
 
-    // FLOW_RATE_SENSOR_PIN is 2
+    // FLOW_SENSOR_PIN is 2
     detachInterrupt(INTERRUPT_PIN_2);
 
-    flowRate          = ((TIMEOUT / intv) * pulseCount) / FLOW_RATE_FACTOR_CALIBRATE;
+    flowRate          = ((TIMEOUT / intv) * pulseCount) / FLOW_SENSOR_FACTOR_CALIBRATE;
     flowMilliLitres   = (flowRate / 60) * 1000;
     totalMilliLitres += flowMilliLitres;
 
@@ -111,18 +111,18 @@ void FlowRate_read(){
     attachInterrupt(INTERRUPT_PIN_2, pulseCounter, FALLING);
 
     Log.print("\n");
-    Log.inf("[flow_rate] rate (L/min):                %.2f", flowRate);
-    Log.inf("[flow_rate] Output Liquid Quantity (mL): %lu", totalMilliLitres);
+    Log.inf("[flow_sensor] rate (L/min):                %.2f", flowRate);
+    Log.inf("[flow_sensor] Output Liquid Quantity (mL): %lu", totalMilliLitres);
     Log.print("\n");
 }
 
 
 // Litres / minute
-float FlowRate_get_rate(){
+float FlowSensor_get_rate(){
     return flowRate;
 }
 
 
-uint32_t FlowRate_get_totalMilliLitres(){
+uint32_t FlowSensor_get_totalMilliLitres(){
     return totalMilliLitres;
 }

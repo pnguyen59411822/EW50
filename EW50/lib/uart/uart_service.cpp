@@ -13,7 +13,7 @@
 #include "voltage.h"
 #include "voltage.const.h"
 #include "acs712_sensor.h"
-#include "flow_rate.h"
+#include "flow_sensor.h"
 
 
 /* ==================================================
@@ -130,9 +130,9 @@ void UART_loop() {
   float volt_water  = Voltage_getWater();
   float ampe_water  = volt_water / RESISTOR_2;
   float power_water = volt_water * ampe_water;
-  float flow_rate   = FlowRate_get_rate();
+  float flow_rate   = FlowSensor_get_rate();
   
-  uint32_t totalMilliLitres = FlowRate_get_totalMilliLitres();
+  uint32_t totalMilliLitres = FlowSensor_get_totalMilliLitres();
 
 
   String data = String(volt_solar, 2)  + "," +
