@@ -46,6 +46,12 @@
 
 static Logger Log(true);
 
+static volatile byte pulseCount = 0;
+
+static float flowRate = 0;
+static uint16_t flowMilliLitres = 0;
+static uint32_t totalMilliLitres = 0;
+
 
 /* ==================================================
 ** Static function declaration
@@ -72,6 +78,9 @@ static Logger Log(true);
 
 
 void FlowRate_init(){
+    pinMode(FLOW_RATE_SENSOR_PIN, INPUT);
+    digitalWrite(FLOW_RATE_SENSOR_PIN, HIGH);
 
+    attachInterrupt(FLOW_RATE_SENSOR_PIN, pulseCounter, FALLING);
 }
 
