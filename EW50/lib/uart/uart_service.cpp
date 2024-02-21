@@ -10,6 +10,10 @@
 #include "common.h"
 
 #include "Logger.h"
+#include "voltage.h"
+#include "voltage.const.h"
+#include "acs712_sensor.h"
+#include "flow_rate.h"
 
 
 /* ==================================================
@@ -109,8 +113,38 @@ void UART_init() {
 
 
 void UART_loop() {
-    if(mySerial.available()) {
-        uart_data = mySerial.readString();
-        Log.inf("[UART] receive data: %s", uart_data.c_str());
-    }
+  const uint64_t  TIMEOUT     = 1000;
+  static uint64_t millis_prev = millis();
+  const uint64_t  intv        = millis() - millis_prev;
+
+  if(intv < TIMEOUT){
+    return;
+  }
+
+  millis_prev = millis();
+
+  float volt_solar  = Voltage_getSolar();
+  float ampe_solar  = ACS712_getSolar();
+  float power_solar = volt_solar * ampe_solar;
+
+  float volt_water  = Voltage_getWater();
+  float ampe_water  = volt_water / RESISTOR_2;
+  float power_water = volt_water * ampe_water;
+  float flow_rate   = FlowRate_get_rate();
+  
+  uint32_t totalMilliLitres = FlowRate_get_totalMilliLitres();
+
+
+  String data = String(volt_solar, 2)  + "," +
+                String(ampe_solar, 2)  + "," +
+                String(power_solar, 2) + "," +
+                String(volt_water, 2)  + "," +
+                String(ampe_water, 2)  + "," +
+                String(power_water, 2) + "," +
+                String(flow_rate, 2)   + "," +
+                String(totalMilliLitres)
+                ;
+
+  Log.inf("[UART] sent data: %s", data.c_str());
+  mySerial.print(data);
 }
