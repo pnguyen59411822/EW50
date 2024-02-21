@@ -8,7 +8,7 @@
 ** =============================================== */
 
 
-//
+#include "pin_table.h"
 
 
 /* ==================================================
@@ -17,8 +17,8 @@
 ** =============================================== */
 
 
-#define UART_TX_DEFAULT     D1
-#define UART_RX_DEFAULT     D2
+#define UART_TX_DEFAULT     HUB_RX
+#define UART_RX_DEFAULT     HUB_TX
 
 #define UART_BAUND_RATE_DEFAULT 9600
 
