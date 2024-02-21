@@ -86,3 +86,30 @@ void FlowRate_init(){
     attachInterrupt(FLOW_RATE_SENSOR_PIN, pulseCounter, FALLING);
 }
 
+
+void FlowRate_read(){
+    static uint32_t millis_prev = 0;
+    const float     TIMEOUT     = 1000.0;
+    const uint32_t  intv        = millis() - millis_prev;
+
+    if(intv < TIMEOUT){
+        return;
+    }
+
+    millis_prev = millis();
+
+    // FLOW_RATE_SENSOR_PIN is 2
+    detachInterrupt(INTERRUPT_PIN_2);
+
+    flowRate          = ((TIMEOUT / intv) * pulseCount) / FLOW_RATE_FACTOR_CALIBRATE;
+    flowMilliLitres   = (flowRate / 60) * 1000;
+    totalMilliLitres += flowMilliLitres;
+
+    pulseCount = 0;
+    attachInterrupt(INTERRUPT_PIN_2, pulseCounter, FALLING);
+
+    Log.print("\n");
+    Log.inf("[flow_rate] rate (L/min):                %.2f", flowRate);
+    Log.inf("[flow_rate] Output Liquid Quantity (mL): %lu", totalMilliLitres);
+    Log.print("\n");
+}
