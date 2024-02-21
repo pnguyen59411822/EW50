@@ -48,7 +48,9 @@ static Logger Log(true);
 
 static volatile byte pulseCount = 0;
 
+// Litres / minute
 static float flowRate = 0;
+// MilliLitres in a measure
 static uint16_t flowMilliLitres = 0;
 static uint32_t totalMilliLitres = 0;
 
