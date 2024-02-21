@@ -18,9 +18,9 @@ Logger::Logger(
     uint32_t        MONITOR_SPEED,
     bool            flg_enable
 )
-    : LOG_PORT(LOG_PORT)
+    : flg_enable(flg_enable)
+    , LOG_PORT(LOG_PORT)
     , MONITOR_SPEED(MONITOR_SPEED)
-    , flg_enable(flg_enable)
 {
 
     if (!flg_enable) {
@@ -28,14 +28,15 @@ Logger::Logger(
     }
     
     LOG_PORT->begin(MONITOR_SPEED);
+    while(!(*LOG_PORT));
     LOG_PORT->print("\n\n\r");
 }
 
 
 Logger::Logger(bool flg_enable)
-    : LOG_PORT(LOG_PORT_DEFAULT)
+    : flg_enable(flg_enable)
+    , LOG_PORT(LOG_PORT_DEFAULT)
     , MONITOR_SPEED(MONITOR_SPEED_DEFAULT)
-    , flg_enable(flg_enable)
 {
 
     if (!flg_enable) {
@@ -43,6 +44,7 @@ Logger::Logger(bool flg_enable)
     }
     
     LOG_PORT->begin(MONITOR_SPEED);
+    while(!(*LOG_PORT));
     LOG_PORT->print("\n\n\r");
 }
 
@@ -83,7 +85,7 @@ void Logger::printf(const char *fmt, ...) {
         return;
     };
 
-    if(len >= sizeof(loc_buf)){
+    if((unsigned long)len >= sizeof(loc_buf)){
         temp = (char*) malloc(len+1);
         if(temp == NULL) {
             va_end(arg);
@@ -120,7 +122,7 @@ void Logger::printf(const char *fmt, va_list &args) {
         return;
     };
 
-    if(len >= sizeof(loc_buf)){
+    if((unsigned long)len >= sizeof(loc_buf)){
         temp = (char*) malloc(len+1);
         if(temp == NULL) {
             va_end(args);
