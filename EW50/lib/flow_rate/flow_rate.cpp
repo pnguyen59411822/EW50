@@ -7,6 +7,9 @@
 #include "flow_rate.h"
 #include "flow_rate.const.h"
 
+#include "pin_table.h"
+#include "Logger.h"
+
 
 /* ==================================================
 ** Macro definition
@@ -41,7 +44,7 @@
 ** =============================================== */
 
 
-//
+static Logger Log(true);
 
 
 /* ==================================================
