@@ -32,8 +32,11 @@
 #define PIN_RX3                     15
 
 
-#define VOLTAGE_SENSOR_PIN_SOLAR    A0
-#define VOLTAGE_SENSOR_PIN_WATER    A7
+#define VOLTAGE_SENSOR_PIN_SOLAR        A0
+#define VOLTAGE_SENSOR_PIN_SOLAR_LOAD   A1
+
+#define VOLTAGE_SENSOR_PIN_WATER        A7
+#define VOLTAGE_SENSOR_PIN_WATER_LOAD   A8
 
 #define ACS712_PIN_SOLAR            A3
 
