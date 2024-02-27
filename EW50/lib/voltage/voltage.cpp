@@ -128,6 +128,7 @@ void Voltage_read() {
     intv = millis();
 
     read_solarVolt();
+    read_solarLoadVolt();
     read_waterVolt();
 }
 
