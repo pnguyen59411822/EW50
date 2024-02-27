@@ -125,13 +125,13 @@ void UART_loop() {
 
   float volt_solar      = Voltage_getSolar();
   float volt_solarLoad  = Voltage_getSolarLoad();
-  float ampe_solar      = ACS712_getSolar();
-  float power_solar     = volt_solar * ampe_solar;
+  float ampe_solarLoad  = ACS712_getSolar();
+  float power_solarLoad = volt_solarLoad * ampe_solarLoad;
 
   float volt_water      = Voltage_getWater();
   float volt_waterLoad  = Voltage_getWaterLoad();
-  float ampe_water      = volt_water / RESISTOR_2;
-  float power_water     = volt_water * ampe_water;
+  float ampe_waterLoad  = volt_water / RESISTOR_2;
+  float power_waterLoad = volt_waterLoad * ampe_waterLoad;
   float flow_rate       = FlowSensor_get_rate();
   
   uint32_t totalMilliLitres = FlowSensor_get_totalMilliLitres();
@@ -139,12 +139,12 @@ void UART_loop() {
 
   String data = String(volt_solar, 2)      + "," +
                 String(volt_solarLoad, 2)  + "," +
-                String(ampe_solar, 2)      + "," +
-                String(power_solar, 2)     + "," +
+                String(ampe_solarLoad, 2)  + "," +
+                String(power_solarLoad, 2) + "," +
                 String(volt_water, 2)      + "," +
                 String(volt_waterLoad, 2)  + "," +
-                String(ampe_water, 2)      + "," +
-                String(power_water, 2)     + "," +
+                String(ampe_waterLoad, 2)  + "," +
+                String(power_waterLoad, 2) + "," +
                 String(flow_rate, 2)       + "," +
                 String(totalMilliLitres)
                 ;
