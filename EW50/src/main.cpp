@@ -25,12 +25,13 @@ void setup() {
   Log.init();
   UART_init();
   HCSR04_init();
+  ACS712_calibrate();
   FlowSensor_init();
 }
 
 void loop() {
   Log.print("\n");
-  
+
   HCSR04_read();
   Voltage_read();
   FlowSensor_read();
