@@ -45,8 +45,12 @@
 
 
 static SimpleKalmanFilter fillter(1, 5, 0.05);
+
 static float volt_solar = 0;
+static float volt_solarLoad = 0;
+
 static float volt_water = 0;
+static float volt_waterLoad = 0;
 
 
 /* ==================================================
@@ -56,7 +60,9 @@ static float volt_water = 0;
 
 
 static void read_solarVolt();
+static void read_solarLoadVolt();
 static void read_waterVolt();
+static void read_waterLoadVolt();
 
 
 /* ==================================================
@@ -75,6 +81,16 @@ void read_solarVolt(){
 }
 
 
+void read_solarLoadVolt(){
+
+    uint16_t adc_r2  = analogRead(VOLTAGE_SENSOR_PIN_SOLAR_LOAD);
+            //  adc_r2  = fillter.updateEstimate(adc_r2);
+    float    volt_r2 = (float)(adc_r2 * VOLTAGE_REF) / ADC_RESOLUTION;
+    
+    volt_solarLoad  = volt_r2 * (RESISTOR_1 + RESISTOR_2) / RESISTOR_2; 
+}
+
+
 void read_waterVolt(){
 
     uint16_t adc_r2  = analogRead(VOLTAGE_SENSOR_PIN_WATER);
@@ -82,6 +98,16 @@ void read_waterVolt(){
     float    volt_r2 = (float)(adc_r2 * VOLTAGE_REF) / ADC_RESOLUTION;
     
     volt_water  = volt_r2 * (RESISTOR_1 + RESISTOR_2) / RESISTOR_2; 
+}
+
+
+void read_waterLoadVolt(){
+
+    uint16_t adc_r2  = analogRead(VOLTAGE_SENSOR_PIN_WATER_LOAD);
+            //  adc_r2  = fillter.updateEstimate(adc_r2);
+    float    volt_r2 = (float)(adc_r2 * VOLTAGE_REF) / ADC_RESOLUTION;
+    
+    volt_waterLoad  = volt_r2 * (RESISTOR_1 + RESISTOR_2) / RESISTOR_2; 
 }
 
 
@@ -111,6 +137,16 @@ float Voltage_getSolar() {
 }
 
 
+float Voltage_getSolarLoad() {
+    return volt_solarLoad;
+}
+
+
 float Voltage_getWater() {
     return volt_water;
+}
+
+
+float Voltage_getWaterLoad() {
+    return volt_waterLoad;
 }
