@@ -12,6 +12,7 @@ Logger Log(true);
 
 
 void setup() {
+  Log.init();
   UART_init();
   HCSR04_init();
   FlowSensor_init();

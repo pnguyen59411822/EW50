@@ -38,6 +38,8 @@ class Logger
     public: Logger(bool flg_enable);
 
     // Methods
+    public: void init();
+
     public: void print(const char *fmt);
     public: void printf(const char *fmt, ...);
     private: void printf(const char *fmt, va_list &args);
@@ -50,6 +52,7 @@ class Logger
     public: void disable();
 
     // Attributes
+    private: bool flg_init;
     private: bool flg_upd;
     private: bool flg_enable;
     private: HardwareSerial *LOG_PORT;

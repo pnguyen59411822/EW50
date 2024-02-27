@@ -18,33 +18,48 @@ Logger::Logger(
     uint32_t        MONITOR_SPEED,
     bool            flg_enable
 )
-    : LOG_PORT(LOG_PORT)
-    , MONITOR_SPEED(MONITOR_SPEED)
+    : flg_init(false)
+    , flg_upd(false)
     , flg_enable(flg_enable)
+    , LOG_PORT(LOG_PORT)
+    , MONITOR_SPEED(MONITOR_SPEED)
 {
 
-    if (!flg_enable) {
-        return;
-    }
+    // if (!flg_enable) {
+    //     return;
+    // }
     
-    LOG_PORT->begin(MONITOR_SPEED);
-    while(!LOG_PORT);
-    LOG_PORT->print("\n\n\r");
+    // if(!(*LOG_PORT)){
+    //     LOG_PORT->begin(MONITOR_SPEED);
+    // }
+
+    // while(!(*LOG_PORT));
+    // LOG_PORT->print("\n\n\r");
+
+    // flg_init = true;
 }
 
 
 Logger::Logger(bool flg_enable)
-    : LOG_PORT(LOG_PORT_DEFAULT)
-    , MONITOR_SPEED(MONITOR_SPEED_DEFAULT)
+    : flg_init(false)
+    , flg_upd(false)
     , flg_enable(flg_enable)
+    , LOG_PORT(LOG_PORT_DEFAULT)
+    , MONITOR_SPEED(MONITOR_SPEED_DEFAULT)
 {
 
-    if (!flg_enable) {
-        return;
-    }
+    // if (!flg_enable) {
+    //     return;
+    // }
     
-    LOG_PORT->begin(MONITOR_SPEED);
-    LOG_PORT->print("\n\n\r");
+    // if(!(*LOG_PORT)){
+    //     LOG_PORT->begin(MONITOR_SPEED);
+    // }
+    
+    // while(!(*LOG_PORT));
+    // LOG_PORT->print("\n\n\r");
+
+    // flg_init = true;
 }
 
 
@@ -54,9 +69,29 @@ Logger::Logger(bool flg_enable)
 ** =============================================== */
 
 
+void Logger::init(){
+
+    if(flg_init){
+        return;
+    }
+
+    flg_init = true;
+    
+    LOG_PORT->begin(MONITOR_SPEED);
+    while(!(*LOG_PORT));
+    LOG_PORT->print("\n\n\r");
+
+}
+
+
 void Logger::print(const char *fmt) {
     if(!flg_enable) {
         return;
+    }
+
+    if(flg_upd){
+        LOG_PORT->println();
+        flg_upd = false;
     }
 
     LOG_PORT->print(fmt);
@@ -66,6 +101,11 @@ void Logger::print(const char *fmt) {
 void Logger::printf(const char *fmt, ...) {
     if(!flg_enable) {
         return;
+    }
+
+    if(flg_upd){
+        LOG_PORT->println();
+        flg_upd = false;
     }
 
     char loc_buf[64];
@@ -84,7 +124,7 @@ void Logger::printf(const char *fmt, ...) {
         return;
     };
 
-    if(len >= sizeof(loc_buf)){
+    if((unsigned long)len >= sizeof(loc_buf)){
         temp = (char*) malloc(len+1);
         if(temp == NULL) {
             va_end(arg);
@@ -107,6 +147,11 @@ void Logger::printf(const char *fmt, va_list &args) {
         return;
     }
 
+    if(flg_upd){
+        LOG_PORT->println();
+        flg_upd = false;
+    }
+
     char loc_buf[64];
     char * temp = loc_buf;
 
@@ -121,7 +166,7 @@ void Logger::printf(const char *fmt, va_list &args) {
         return;
     };
 
-    if(len >= sizeof(loc_buf)){
+    if((unsigned long)len >= sizeof(loc_buf)){
         temp = (char*) malloc(len+1);
         if(temp == NULL) {
             va_end(args);
