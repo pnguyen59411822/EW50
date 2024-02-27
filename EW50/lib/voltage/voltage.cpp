@@ -130,6 +130,7 @@ void Voltage_read() {
     read_solarVolt();
     read_solarLoadVolt();
     read_waterVolt();
+    read_waterLoadVolt();
 }
 
 
