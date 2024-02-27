@@ -30,14 +30,13 @@ void setup() {
 }
 
 void loop() {
-  Log.print("\n");
 
   HCSR04_read();
   Voltage_read();
   FlowSensor_read();
   UART_loop();
 
-  Log.inf("[Voltage] Solar: %s", get_cstr(Voltage_getSolar()));
-  Log.inf("[Voltage] Water: %s", get_cstr(Voltage_getWater()));
-  Log.inf("[ACS712] current DC: %s", get_cstr(ACS712_getSolar()));
+  // Log.inf("[Voltage] Solar: %s", get_cstr(Voltage_getSolar()));
+  // Log.inf("[Voltage] Water: %s", get_cstr(Voltage_getWater()));
+  // Log.inf("[ACS712] current DC: %s", get_cstr(ACS712_getSolar()));
 }

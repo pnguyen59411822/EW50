@@ -44,7 +44,7 @@
 ** =============================================== */
 
 
-static Logger Log(true);
+static Logger Log(false);
 static ACS712 sensor_solar(ACS712_TYPE, ACS712_PIN_SOLAR);
 
 static uint16_t current_solar = 0;

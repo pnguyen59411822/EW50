@@ -44,7 +44,7 @@
 ** =============================================== */
 
 
-static Logger Log(true);
+static Logger Log(false);
 
 static volatile byte pulseCount = 0;
 

@@ -44,7 +44,7 @@
 ** =============================================== */
 
 
-static Logger Log(true);
+static Logger Log(false);
 double distance_cm = 0.0;
 
 
