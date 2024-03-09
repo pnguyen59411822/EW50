@@ -44,7 +44,7 @@
 ** =============================================== */
 
 
-static SimpleKalmanFilter fillter(1, 5, 0.05);
+static SimpleKalmanFilter fillter(2, 1.98, 0.01);
 
 static float volt_solar = 0;
 static float volt_solarLoad = 0;
