@@ -44,6 +44,7 @@
 ** =============================================== */
 
 
+void  Voltage_init();
 void  Voltage_read();
 float Voltage_getSolar();
 float Voltage_getSolarLoad();

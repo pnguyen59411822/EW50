@@ -25,6 +25,7 @@ void setup() {
   Log.init();
   UART_init();
   HCSR04_init();
+  Voltage_init();
   ACS712_calibrate();
   FlowSensor_init();
 }

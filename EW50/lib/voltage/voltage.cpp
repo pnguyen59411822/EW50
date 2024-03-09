@@ -117,6 +117,14 @@ void read_waterLoadVolt(){
 ** =============================================== */
 
 
+void Voltage_init(){
+    pinMode(VOLTAGE_SENSOR_PIN_SOLAR, INPUT);
+    pinMode(VOLTAGE_SENSOR_PIN_SOLAR_LOAD, INPUT);
+    pinMode(VOLTAGE_SENSOR_PIN_WATER, INPUT);
+    pinMode(VOLTAGE_SENSOR_PIN_WATER_LOAD, INPUT);
+}
+
+
 void Voltage_read() {
 
     static uint32_t intv = millis();
