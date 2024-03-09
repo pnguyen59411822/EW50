@@ -85,7 +85,7 @@ void UART_init() {
 
 
 void UART_loop() {
-  const uint64_t  TIMEOUT     = 1000;
+  const uint64_t  TIMEOUT     = 1500;
   static uint64_t millis_prev = millis();
   const uint64_t  intv        = millis() - millis_prev;
 
