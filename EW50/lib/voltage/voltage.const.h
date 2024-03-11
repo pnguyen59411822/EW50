@@ -24,7 +24,7 @@
 // Sensor read voltage from this resistor
 #define RESISTOR_2      7500.0
 
-#define ADC_RESOLUTION  1024
+#define ADC_RESOLUTION  1024.0
 
 
 /* ==================================================
